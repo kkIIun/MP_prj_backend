@@ -19,11 +19,6 @@ const connect = () => {
       if (error) {
         console.log("몽고디비 연결 에러", error);
       } else {
-        Comment.create({
-          commenter: "kijung",
-          comment: "backend start",
-          group: "1",
-        });
         console.log("몽고디비 연결 성공");
       }
     }
