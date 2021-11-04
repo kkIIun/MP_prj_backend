@@ -16,7 +16,8 @@
   "description": "모바일 일정 관리 앱",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "devStart": "nodemon app"
   },
   "author": "",
   "license": "ISC"
