@@ -5,13 +5,14 @@ const connect = () => {
     mongoose.set("debug", true);
   }
   url =
+    process.env.MONGODB_URI ||
     "mongodb://" +
-    process.env.name +
-    ":" +
-    process.env.password +
-    "@localhost:27017/admin";
+      process.env.name +
+      ":" +
+      process.env.password +
+      "@localhost:27017/admin";
   mongoose.connect(
-    process.env.MONGODB_URI || url,
+    url,
     {
       dbName: "MP_prj",
     },
