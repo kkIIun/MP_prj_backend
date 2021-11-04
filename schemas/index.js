@@ -4,7 +4,7 @@ const connect = () => {
   if (process.env.NODE_ENV !== "production") {
     mongoose.set("debug", true);
   }
-  uri =
+  const uri =
     "mongodb+srv://rlwjd4177:somuch0503@cluster0.1mhao.mongodb.net/MP_prj?retryWrites=true&w=majority";
 
   // uri =
@@ -13,37 +13,37 @@ const connect = () => {
   //   ":" +
   //   process.env.password +
   //   "@localhost:27017/admin";
-  // mongoose.connect(
-  //   uri,
-  //   {
-  //     dbName: "MP_prj",
-  //   },
-  //   (error) => {
-  //     if (error) {
-  //       console.log("몽고디비 연결 에러", error);
-  //     } else {
-  //       console.log("몽고디비 연결 성공");
-  //     }
-  //   }
-  // );
+  mongoose.connect(
+    uri,
+    {
+      dbName: "MP_prj",
+    },
+    (error) => {
+      if (error) {
+        console.log("몽고디비 연결 에러", error);
+      } else {
+        console.log("몽고디비 연결 성공");
+      }
+    }
+  );
 
-  const { MongoClient } = require("mongodb");
-  const uri =
-    "mongodb+srv://rlwjd4177:somuch0503@cluster0.1mhao.mongodb.net/MP_prj?retryWrites=true&w=majority";
-  const client = new MongoClient(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  client.connect((err) => {
-    const collection = client.db("test").collection("devices");
-    // perform actions on the collection object
-    client.close();
-  });
+  // const { MongoClient } = require("mongodb");
+  // const uri =
+  //   "mongodb+srv://rlwjd4177:somuch0503@cluster0.1mhao.mongodb.net/MP_prj?retryWrites=true&w=majority";
+  // const client = new MongoClient(uri, {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true,
+  // });
+  // client.connect((err) => {
+  //   const collection = client.db("test").collection("devices");
+  //   // perform actions on the collection object
+  //   client.close();
+  // });
 
-  client.on("error", (error) => {
+  mongoose.connection.on("error", (error) => {
     console.log("몽고디비 연결 에러", error);
   });
-  client.on("disconnected", () => {
+  mongoose.connection.on("disconnected", () => {
     console.log("몽고디비 연결이 끊겼습니다. 연결을 재시도합니다.");
     connect();
   });
