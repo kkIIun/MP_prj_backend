@@ -11,7 +11,7 @@ const connect = () => {
     process.env.password +
     "@localhost:27017/admin";
   mongoose.connect(
-    url,
+    process.env.MONGODB_URI || url,
     {
       dbName: "MP_prj",
     },
