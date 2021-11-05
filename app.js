@@ -6,6 +6,7 @@ const connect = require("./schemas");
 const axios = require("axios");
 
 const todoRouter = require("./routes/todo");
+const userRouter = require("./routes/user");
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/todo", todoRouter);
+app.use("/user", userRouter);
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");

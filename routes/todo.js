@@ -63,8 +63,7 @@ router.put("/:id", (req, res) => {
       check: check,
     }
   )
-    .then((todos) => {
-      console.log(todos);
+    .then(() => {
       res.json({
         code: 200,
         message: "todo 수정 성공",
@@ -80,12 +79,10 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  const { deadline, title, assignedUser, check } = req.query;
   Todo.deleteOne({
     _id: ObjectId(req.params.id),
   })
-    .then((todos) => {
-      console.log(todos);
+    .then(() => {
       res.json({
         code: 200,
         message: "todo 삭제 성공",
