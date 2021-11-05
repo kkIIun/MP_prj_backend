@@ -11,7 +11,6 @@ router.post("/", (req, res) => {
     .then((group) => {
       const user = { id: req.query.id, name: req.query.name };
       group.users.push(user);
-      group.save(done);
       res.json({
         code: 200,
         payloads: group,
