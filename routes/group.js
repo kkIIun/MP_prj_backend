@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/", (req, res) => {
   Group.create({
-    title: req.query.title,
+    groupName: req.query.groupName,
   })
     .then((group) => {
       const user = { id: req.query.id, name: req.query.name };
@@ -35,7 +35,7 @@ router
         _id: ObjectId(req.params.id),
       },
       {
-        title: req.query.body,
+        groupName: req.query.groupName,
         $push: { users: user },
       }
     )
