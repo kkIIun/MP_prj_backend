@@ -114,4 +114,5 @@ router.put("/join/:id", (req, res) => {
       });
     });
 });
-router.module.exports = router;
+
+module.exports = router;
