@@ -26,6 +26,7 @@ router.get("/my", (req, res) => {
 
 router.post("/", (req, res) => {
   const { email, name, deadline, title, assignedUser } = req.query;
+  console.log(assignedUser);
   Todo.create({
     author: { email: email, name: name },
     deadline: deadline,

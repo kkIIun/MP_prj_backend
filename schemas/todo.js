@@ -10,7 +10,7 @@ const todoSchema = new Schema({
     default: Date.now,
   },
   group: {
-    type: { id: ObjectId, groupName: String },
+    type: { id: ObjectId, groupName: String, _id: false },
   },
   title: {
     type: String,
@@ -21,10 +21,10 @@ const todoSchema = new Schema({
     default: false,
   },
   author: {
-    type: { email: String, name: String },
+    type: { email: String, name: String, _id: false },
     required: true,
   },
-  assignedUser: { email: String, name: String },
+  assignedUser: { email: String, name: String, _id: false },
   created_at: {
     type: Date,
     default: Date.now,
