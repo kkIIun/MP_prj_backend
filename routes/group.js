@@ -72,47 +72,27 @@ router
       });
   });
 
-router.put("/join/:id", (req, res) => {
-  const userData = { email: req.query.email, name: req.query.name };
-  Group.updateOne(
-    {
-      _id: req.params.id,
-    },
-    {
-      $push: { users: userData },
-    }
-  )
-    .then((group) => {
-      const groupData = { id: req.params.id, groupName: group.groupName };
-      Profile.updateOne(
-        {
-          email: req.query.email,
-        },
-        {
-          $push: { groups: groupData },
-        }
-      )
-        .then(() => {
-          res.json({
-            code: 200,
-            message: "그룹 조인 성공",
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-          return res.status(500).json({
-            code: 500,
-            message: error._message,
-          });
-        });
-    })
-    .catch((error) => {
-      console.error(error);
-      return res.status(500).json({
-        code: 500,
-        message: error._message,
-      });
+router.put("/join/:id", async (req, res) => {
+  try {
+    const user = await Profile.find().where("email").equals(req.query.email);
+    const group = await Group.find().where("_id").equals(req.params.id);
+    const userData = { email: user.email, name: user.name };
+    const groupData = { id: req.params.id, groupName: group.name };
+    user.groups.push(group);
+    group.users.push(userData);
+    user.save();
+    group.save();
+    res.json({
+      code: 200,
+      message: "group 조인 성공",
     });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      code: 500,
+      message: error._message,
+    });
+  }
 });
 
 module.exports = router;
