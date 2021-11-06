@@ -6,11 +6,10 @@ const router = express.Router();
 
 router.get("/my", (req, res) => {
   Todo.find()
-    .where("author")
-    .equals(ObjectId(req.query.id))
+    .where("author.email")
+    .equals(req.query.email)
     .exists("groups", false)
     .then((todos) => {
-      console.log(todos);
       res.json({
         code: 200,
         payloads: todos,
@@ -26,9 +25,9 @@ router.get("/my", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { id, deadline, title, assignedUser } = req.query;
+  const { email, name, deadline, title, assignedUser } = req.query;
   Todo.create({
-    author: ObjectId(id),
+    author: { email: email, name: name },
     deadline: deadline,
     title: title,
     assignedUser: assignedUser,
@@ -98,8 +97,8 @@ router.delete("/:id", (req, res) => {
 
 router.get("/myGroup", (req, res) => {
   Todo.find()
-    .where("groups")
-    .equals(req.query.group)
+    .where("groups.id")
+    .equals(req.query.groupId)
     .then((todos) => {
       console.log(todos);
       res.json({
