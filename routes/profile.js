@@ -32,7 +32,7 @@ router
       });
   })
   .put((req, res) => {
-    console.log(req.param.avatar);
+    console.log(req.params.avatar);
     Profile.updateOne(
       {
         email: req.params.email,
@@ -43,6 +43,7 @@ router
     )
       .then((user) => {
         console.log(user);
+        user.save();
         res.json({
           code: 200,
           message: "group 수정 성공",
