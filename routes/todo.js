@@ -27,7 +27,9 @@ router.get("/my", (req, res) => {
 
 router.post("/", (req, res) => {
   const { email, deadline, title, assignedUser } = req.query;
-  if (assignedUser && !Profile.find().where("email").equals(assignedUser)) {
+  if (
+    assignedUser !== Profile.find().where("email").equals(assignedUser).email
+  ) {
     return res.status(500).json({
       code: 500,
       message: "배정할 유저가 존재하지 않습니다.",
@@ -58,11 +60,9 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { deadline, title, assignedUser, check } = req.query;
-  console.log(
-    Profile.find().where("email").equals(assignedUser).email,
-    assignedUser
-  );
-  if (assignedUser && !Profile.find().where("email").equals(assignedUser)) {
+  if (
+    assignedUser !== Profile.find().where("email").equals(assignedUser).email
+  ) {
     return res.status(500).json({
       code: 500,
       message: "배정할 유저가 존재하지 않습니다.",
