@@ -56,12 +56,11 @@ router.post("/", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
   const { deadline, title, assignedUser, check } = req.query;
-  console.log(Profile.find().where("email").equals(assignedUser), assignedUser);
-  if (
-    assignedUser !== Profile.find().where("email").equals(assignedUser).email
-  ) {
+  const user = await Profile.find().where("email").equals(assignedUser);
+  console.log(user.email, assignedUser);
+  if (assignedUser !== user.email) {
     return res.status(500).json({
       code: 500,
       message: "배정할 유저가 존재하지 않습니다.",
