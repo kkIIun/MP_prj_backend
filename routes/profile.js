@@ -32,24 +32,22 @@ router
       });
   })
   .put((req, res) => {
-    console.log(req.params.avatar);
+    const { email, avatar } = req.query;
     Profile.updateOne(
       {
-        email: req.params.email,
+        email: email,
       },
       {
-        avatarSrc: req.params.avatar,
+        avatarSrc: "123123123",
       }
     )
-      .then((user) => {
-        console.log(user);
-        user.save();
+      .then(() => {
         res.json({
           code: 200,
           message: "group 수정 성공",
         });
       })
-      .catch(() => {
+      .catch((error) => {
         console.error(error);
         return res.status(500).json({
           code: 500,
