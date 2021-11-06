@@ -38,7 +38,7 @@ router
         email: email,
       },
       {
-        avatarSrc: "123123123",
+        avatarSrc: avatar,
       }
     )
       .then(() => {
