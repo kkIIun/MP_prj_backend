@@ -6,7 +6,7 @@ const connect = require("./schemas");
 const axios = require("axios");
 
 const todoRouter = require("./routes/todo");
-const userRouter = require("./routes/user");
+const profileRouter = require("./routes/profile");
 const groupRouter = require("./routes/group");
 
 dotenv.config();
@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/todo", todoRouter);
-app.use("/user", userRouter);
+app.use("/profile", profileRouter);
 app.use("/group", groupRouter);
 
 app.listen(app.get("port"), () => {

@@ -8,10 +8,7 @@ router.post("/", (req, res) => {
   var group = new Group({
     groupName: req.query.groupName,
   });
-  const user = { id: req.query.id, name: req.query.name };
-  // Group.create({
-  //   groupName: req.query.groupName,
-  // })
+  const user = { email: req.query.email, name: req.query.name };
   group.users.push(user);
   group
     .save()
@@ -33,7 +30,7 @@ router.post("/", (req, res) => {
 router
   .route("/:id")
   .put((req, res) => {
-    const user = { id: req.query.id, name: req.query.name };
+    const user = { email: req.query.email, name: req.query.name };
     Group.updateOne(
       {
         _id: ObjectId(req.params.id),

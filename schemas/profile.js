@@ -3,13 +3,16 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const ObjectId = require("mongoose").Types.ObjectId;
 
-const userSchema = new Schema({
+const profileSchema = new Schema({
   name: {
     type: String,
     required: true,
   },
   group: [{ id: ObjectId, groupName: String }],
-  avatar: String,
+  avatarSrc: {
+    type: String,
+    default: "null",
+  },
   email: {
     type: String,
     required: true,
@@ -19,6 +22,7 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  _id: false,
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Profile", profileSchema);
