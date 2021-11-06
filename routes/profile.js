@@ -11,9 +11,9 @@ router
     Profile.find()
       .where("email")
       .equals(email)
-      .then((user) => {
+      .then(async (user) => {
         if (user.length == 0) {
-          user = Profile.create({
+          user = await Profile.create({
             email: email,
             name: name,
           });
