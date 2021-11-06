@@ -78,7 +78,7 @@ router.put("/join/:id", async (req, res) => {
     const group = await Group.find().where("_id").equals(req.params.id);
     const userData = { email: user.email, name: user.name };
     const groupData = { id: req.params.id, groupName: group.name };
-    user.groups.push(groupData);
+    // user.groups.push(groupData);
     group.users.push(userData);
     user.save();
     group.save();
