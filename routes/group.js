@@ -74,14 +74,24 @@ router
 
 router.put("/join/:id", async (req, res) => {
   try {
-    const user = await Profile.find().where("email").equals(req.query.email);
-    const group = await Group.find().where("_id").equals(req.params.id);
     const userData = { email: user.email, name: user.name };
+    const group = await Group.updateOne(
+      {
+        _id: req.params.id,
+      },
+      {
+        $push: { users: userData },
+      }
+    );
     const groupData = { id: req.params.id, groupName: group.name };
-    user.groups.insert(groupData);
-    group.users.insert(userData);
-    user.save();
-    group.save();
+    await Profile.updateOne(
+      {
+        email: req.query.email,
+      },
+      {
+        $push: { groups: groupData },
+      }
+    );
     res.json({
       code: 200,
       message: "group 조인 성공",
