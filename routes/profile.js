@@ -12,6 +12,7 @@ router
       .where("email")
       .equals(email)
       .then((user) => {
+        console.log(user);
         if (!user) {
           user = Profile.create({
             email: email,
