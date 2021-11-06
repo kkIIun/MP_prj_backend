@@ -22,7 +22,6 @@ const profileSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  _id: false,
 });
 
 module.exports = mongoose.model("Profile", profileSchema);
