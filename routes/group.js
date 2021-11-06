@@ -74,7 +74,7 @@ router
 
 router.put("/join/:id", async (req, res) => {
   try {
-    const userData = { email: user.email, name: user.name };
+    const userData = { email: req.query.email, name: req.query.name };
     const group = await Group.updateOne(
       {
         _id: req.params.id,
