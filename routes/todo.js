@@ -8,7 +8,7 @@ router.get("/my", (req, res) => {
   Todo.find()
     .where("author")
     .equals(ObjectId(req.query.id))
-    .exists("group", false)
+    .exists("groups", false)
     .then((todos) => {
       console.log(todos);
       res.json({
@@ -26,11 +26,10 @@ router.get("/my", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { id, deadline, group, title, assignedUser } = req.query;
+  const { id, deadline, title, assignedUser } = req.query;
   Todo.create({
     author: ObjectId(id),
     deadline: deadline,
-    group: group,
     title: title,
     assignedUser: assignedUser,
   })
@@ -99,7 +98,7 @@ router.delete("/:id", (req, res) => {
 
 router.get("/myGroup", (req, res) => {
   Todo.find()
-    .where("group")
+    .where("groups")
     .equals(req.query.group)
     .then((todos) => {
       console.log(todos);

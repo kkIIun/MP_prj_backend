@@ -1,5 +1,6 @@
 const express = require("express");
 const Group = require("../schemas/group");
+const Profile = require("../schemas/profile");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 const router = express.Router();
@@ -30,12 +31,14 @@ router.post("/", (req, res) => {
 router
   .route("/:id")
   .put((req, res) => {
-    const user = { email: req.query.email, name: req.query.name };
-    var group = Group.find().where("_id").equals(ObjectId(req.params.id));
-    if (req.query.groupName) group.groupName = req.query.groupName;
-    if (req.query.email) group.users.push(user);
-    group
-      .save()
+    Group.updateOne(
+      {
+        _id: ObjectId(req.params.id),
+      },
+      {
+        groupName: req.query.groupName,
+      }
+    )
       .then(() => {
         res.json({
           code: 200,
@@ -69,4 +72,46 @@ router
       });
   });
 
-module.exports = router;
+router.put("/join/:id", (req, res) => {
+  const user = { email: req.query.email, name: req.query.name };
+  const group = { id: req.params.id, groupName: req.query.groupName };
+  Group.updateOne(
+    {
+      _id: req.params.id,
+    },
+    {
+      $push: { users: user },
+    }
+  )
+    .then(() => {
+      Profile.updateOne(
+        {
+          email: req.query.email,
+        },
+        {
+          $push: { groups: group },
+        }
+      )
+        .then(() => {
+          res.json({
+            code: 200,
+            message: "그룹 조인 성공",
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+          return res.status(500).json({
+            code: 500,
+            message: error._message,
+          });
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.status(500).json({
+        code: 500,
+        message: error._message,
+      });
+    });
+});
+router.module.exports = router;

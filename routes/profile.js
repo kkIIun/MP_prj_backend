@@ -44,7 +44,7 @@ router
       .then(() => {
         res.json({
           code: 200,
-          message: "group 수정 성공",
+          message: "프로필 수정 성공",
         });
       })
       .catch((error) => {
