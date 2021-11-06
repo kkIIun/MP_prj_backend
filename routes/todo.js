@@ -58,7 +58,10 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { deadline, title, assignedUser, check } = req.query;
-  console.log(Profile.find().where("email").equals(assignedUser), assignedUser);
+  console.log(
+    Profile.find().where("email").equals(assignedUser).email,
+    assignedUser
+  );
   if (assignedUser && !Profile.find().where("email").equals(assignedUser)) {
     return res.status(500).json({
       code: 500,
