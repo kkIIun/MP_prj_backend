@@ -5,12 +5,12 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const router = express.Router();
 
 router.post("/", (req, res) => {
+  const user = { id: req.query.id, name: req.query.name };
   Group.create({
     groupName: req.query.groupName,
+    $push: { users: user },
   })
     .then((group) => {
-      const user = { id: req.query.id, name: req.query.name };
-      group.users.push(user);
       res.json({
         code: 200,
         payloads: group,
