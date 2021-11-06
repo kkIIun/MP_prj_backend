@@ -12,7 +12,7 @@ router
       .where("email")
       .equals(email)
       .then(async (user) => {
-        if (user.length == 0) {
+        if (!user.length) {
           user = await Profile.create({
             email: email,
             name: name,
@@ -32,6 +32,7 @@ router
       });
   })
   .put((req, res) => {
+    console.log(req.param.avatar);
     Profile.updateOne(
       {
         email: req.params.email,
@@ -40,7 +41,8 @@ router
         avatarSrc: req.params.avatar,
       }
     )
-      .then(() => {
+      .then((user) => {
+        console.log(user);
         res.json({
           code: 200,
           message: "group 수정 성공",
