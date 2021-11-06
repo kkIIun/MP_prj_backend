@@ -74,7 +74,6 @@ router
 
 router.put("/join/:id", (req, res) => {
   const user = { email: req.query.email, name: req.query.name };
-  const group = { id: req.params.id, groupName: req.query.groupName };
   Group.updateOne(
     {
       _id: req.params.id,
@@ -83,7 +82,8 @@ router.put("/join/:id", (req, res) => {
       $push: { users: user },
     }
   )
-    .then(() => {
+    .then((group) => {
+      const group = { id: req.params.id, groupName: group.groupName };
       Profile.updateOne(
         {
           email: req.query.email,
