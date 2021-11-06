@@ -13,7 +13,7 @@ router
       .equals(email)
       .then((user) => {
         console.log(user.length, user[0]);
-        if (!user.length) {
+        if (user.length == 0) {
           user = Profile.create({
             email: email,
             name: name,
