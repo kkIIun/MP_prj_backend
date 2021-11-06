@@ -8,7 +8,7 @@ const groupSchema = new Schema({
     type: String,
     required: true,
   },
-  users: [{ id: ObjectId, name: String, _id: false }],
+  users: [{ email: String, name: String, _id: false }],
   created_at: {
     type: Date,
     default: Date.now,

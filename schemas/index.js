@@ -6,13 +6,6 @@ const connect = () => {
   }
   const uri =
     "mongodb+srv://rlwjd4177:somuch0503@cluster0.1mhao.mongodb.net/MP_prj?retryWrites=true&w=majority";
-
-  // uri =
-  //   "mongodb://" +
-  //   process.env.name +
-  //   ":" +
-  //   process.env.password +
-  //   "@localhost:27017/admin";
   mongoose.connect(
     uri,
     {
@@ -26,19 +19,6 @@ const connect = () => {
       }
     }
   );
-
-  // const { MongoClient } = require("mongodb");
-  // const uri =
-  //   "mongodb+srv://rlwjd4177:somuch0503@cluster0.1mhao.mongodb.net/MP_prj?retryWrites=true&w=majority";
-  // const client = new MongoClient(uri, {
-  //   useNewUrlParser: true,
-  //   useUnifiedTopology: true,
-  // });
-  // client.connect((err) => {
-  //   const collection = client.db("test").collection("devices");
-  //   // perform actions on the collection object
-  //   client.close();
-  // });
 
   mongoose.connection.on("error", (error) => {
     console.log("몽고디비 연결 에러", error);
