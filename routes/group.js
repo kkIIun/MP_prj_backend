@@ -31,9 +31,8 @@ router
   .route("/:id")
   .put((req, res) => {
     const user = { email: req.query.email, name: req.query.name };
-    var group = Group.find().where(_id).equals(ObjectId(req.params.id));
-    group.groupName = req.query.groupName;
-    // if (req.query.groupName) group.groupName = req.query.groupName;
+    var group = Group.find().where("_id").equals(ObjectId(req.params.id));
+    if (req.query.groupName) group.groupName = req.query.groupName;
     if (req.query.email) group.users.push(user);
     group
       .save()
