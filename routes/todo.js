@@ -1,12 +1,13 @@
 const express = require("express");
 const Todo = require("../schemas/todo");
+const Profile = require("../schemas/profile");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 const router = express.Router();
 
 router.get("/my", (req, res) => {
   Todo.find()
-    .where("author.email")
+    .where("author")
     .equals(req.query.email)
     .exists("groups", false)
     .then((todos) => {
@@ -25,10 +26,16 @@ router.get("/my", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { email, name, deadline, title, assignedUser } = req.query;
-  console.log(assignedUser);
+  const { email, deadline, title, assignedUser } = req.query;
+  if (assignedUser && !Profile.find().where("email").equals(assignedUser)) {
+    return res.status(500).json({
+      code: 500,
+      message: "배정할 유저가 존재하지 않습니다.",
+    });
+  }
+
   Todo.create({
-    author: { email: email, name: name },
+    author: email,
     deadline: deadline,
     title: title,
     assignedUser: assignedUser,
@@ -51,6 +58,12 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const { deadline, title, assignedUser, check } = req.query;
+  if (assignedUser && !Profile.find().where("email").equals(assignedUser)) {
+    return res.status(500).json({
+      code: 500,
+      message: "배정할 유저가 존재하지 않습니다.",
+    });
+  }
   Todo.updateOne(
     {
       _id: ObjectId(req.params.id),
@@ -98,7 +111,7 @@ router.delete("/:id", (req, res) => {
 
 router.get("/myGroup", (req, res) => {
   Todo.find()
-    .where("groups.id")
+    .where("groupId")
     .equals(req.query.groupId)
     .then((todos) => {
       console.log(todos);
