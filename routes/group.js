@@ -31,15 +31,11 @@ router
   .route("/:id")
   .put((req, res) => {
     const user = { email: req.query.email, name: req.query.name };
-    Group.updateOne(
-      {
-        _id: ObjectId(req.params.id),
-      },
-      {
-        groupName: req.query.groupName,
-        $push: { users: user },
-      }
-    )
+    var group = Group.find().where(_id).equals(ObjectId(req.params.id));
+    if (req.query.groupName) group.groupName = req.query.groupName;
+    if (req.query.email) group.users.push(user);
+    group
+      .save()
       .then(() => {
         res.json({
           code: 200,
