@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { deadline, title, assignedUser, check } = req.query;
-    const checkBool = check == "true" ? true : false;
+    const checkBool = true;
     const user = await Profile.find({
       email: assignedUser,
     });
