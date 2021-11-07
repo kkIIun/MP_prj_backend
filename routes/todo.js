@@ -61,8 +61,10 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const { deadline, title, assignedUser, check } = req.query;
-    const checkBool = true;
+    const { deadline, title, assignedUser } = req.query;
+    var check;
+    if (req.query.check == "true") check = true;
+    else check = false;
     const user = await Profile.find({
       email: assignedUser,
     });
@@ -81,7 +83,7 @@ router.put("/:id", async (req, res) => {
         deadline: deadline,
         title: title,
         assignedUser: assignedUser,
-        check: checkBool,
+        check: check,
       }
     );
     res.json({
