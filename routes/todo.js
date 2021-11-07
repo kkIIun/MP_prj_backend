@@ -61,7 +61,7 @@ router.put("/:id", async (req, res) => {
   const user = await Profile.find({
     email: assignedUser,
   });
-  console.log(user.email, assignedUser);
+  console.log(user, assignedUser);
   if (assignedUser !== user.email) {
     return res.status(500).json({
       code: 500,
