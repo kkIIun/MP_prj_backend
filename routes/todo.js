@@ -61,8 +61,8 @@ router.put("/:id", async (req, res) => {
   const user = await Profile.find({
     email: assignedUser,
   });
-  console.log(user["email"], assignedUser);
-  if (assignedUser !== user["email"]) {
+  console.log(user, assignedUser);
+  if (!user.includes(assignedUser)) {
     return res.status(500).json({
       code: 500,
       message: "배정할 유저가 존재하지 않습니다.",
