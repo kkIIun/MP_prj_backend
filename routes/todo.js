@@ -61,7 +61,7 @@ router.put("/:id", async (req, res) => {
   const user = await Profile.find({
     email: assignedUser,
   });
-  console.log(user, assignedUser);
+  console.log(user[0], assignedUser);
   if (!user.includes(assignedUser)) {
     return res.status(500).json({
       code: 500,
