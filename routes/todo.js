@@ -25,9 +25,12 @@ router.get("/my", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { email, deadline, title, assignedUser } = req.query;
-  if (assignedUser && !Profile.find().where("email").equals(assignedUser)) {
+  const user = await Profile.find({
+    email: assignedUser,
+  });
+  if (assignedUser && !user[0]) {
     return res.status(500).json({
       code: 500,
       message: "배정할 유저가 존재하지 않습니다.",
@@ -69,7 +72,7 @@ router.put("/:id", async (req, res) => {
         message: "배정할 유저가 존재하지 않습니다.",
       });
     }
-    Todo.updateOne(
+    await Todo.updateOne(
       {
         _id: ObjectId(req.params.id),
       },
