@@ -22,6 +22,11 @@ const profileSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  _id: {
+    type: Int32Array,
+    required: true,
+    unique: true,
+  },
 });
 
 module.exports = mongoose.model("Profile", profileSchema);

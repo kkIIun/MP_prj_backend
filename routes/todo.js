@@ -2,6 +2,7 @@ const express = require("express");
 const Todo = require("../schemas/todo");
 const Profile = require("../schemas/profile");
 const ObjectId = require("mongoose").Types.ObjectId;
+const { isAuthToken } = require("./auth");
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.get("/my", (req, res) => {
     });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isAuthToken, async (req, res) => {
   const { email, deadline, title, assignedUser, groupId } = req.query;
   const user = await Profile.find({
     email: assignedUser,
