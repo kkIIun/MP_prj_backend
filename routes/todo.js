@@ -63,9 +63,9 @@ router.put("/:id", async (req, res) => {
   try {
     const { deadline, title, assignedUser } = req.query;
     var check;
-    if (req.query.check.equals("true")) check = true;
+    if (req.query.check == "true") check = true;
     else check = false;
-    console.log(check, req.query.check);
+
     const user = await Profile.find({
       email: assignedUser,
     });
