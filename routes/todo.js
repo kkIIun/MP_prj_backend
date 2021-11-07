@@ -63,7 +63,7 @@ router.put("/:id", async (req, res) => {
       email: assignedUser,
     });
 
-    if (!user[0]) {
+    if (assignedUser && !user[0]) {
       return res.status(500).json({
         code: 500,
         message: "배정할 유저가 존재하지 않습니다.",
