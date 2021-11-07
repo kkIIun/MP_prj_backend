@@ -57,41 +57,40 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { deadline, title, assignedUser, check } = req.query;
-  const user = await Profile.find({
-    email: assignedUser,
-  });
-  console.log(user[0].email, assignedUser);
-  if (user[0].email !== assignedUser) {
-    return res.status(500).json({
-      code: 500,
-      message: "배정할 유저가 존재하지 않습니다.",
+  try {
+    const { deadline, title, assignedUser, check } = req.query;
+    const user = await Profile.find({
+      email: assignedUser,
     });
-  }
-  Todo.updateOne(
-    {
-      _id: ObjectId(req.params.id),
-    },
-    {
-      deadline: deadline,
-      title: title,
-      assignedUser: assignedUser,
-      check: check,
-    }
-  )
-    .then(() => {
-      res.json({
-        code: 200,
-        message: "todo 수정 성공",
-      });
-    })
-    .catch((error) => {
-      console.error(error);
+    console.log(user[0].email, assignedUser);
+    if (user[0].email !== assignedUser) {
       return res.status(500).json({
         code: 500,
-        message: error._message,
+        message: "배정할 유저가 존재하지 않습니다.",
       });
+    }
+    Todo.updateOne(
+      {
+        _id: ObjectId(req.params.id),
+      },
+      {
+        deadline: deadline,
+        title: title,
+        assignedUser: assignedUser,
+        check: check,
+      }
+    );
+    res.json({
+      code: 200,
+      message: "todo 수정 성공",
     });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      code: 500,
+      message: error._message,
+    });
+  }
 });
 
 router.delete("/:id", (req, res) => {
