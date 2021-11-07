@@ -9,7 +9,10 @@ const todoSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  groupId: ObjectId,
+  groupId: {
+    type: ObjectId,
+    default: null,
+  },
   title: {
     type: String,
     required: true,

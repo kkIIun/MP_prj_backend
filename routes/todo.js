@@ -9,7 +9,8 @@ router.get("/my", (req, res) => {
   Todo.find()
     .where("author")
     .equals(req.query.email)
-    .exists("groups", false)
+    .where("groupId")
+    .equals(null)
     .then((todos) => {
       res.json({
         code: 200,
@@ -26,7 +27,7 @@ router.get("/my", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { email, deadline, title, assignedUser } = req.query;
+  const { email, deadline, title, assignedUser, groupId } = req.query;
   const user = await Profile.find({
     email: assignedUser,
   });
@@ -42,6 +43,7 @@ router.post("/", async (req, res) => {
     deadline: deadline,
     title: title,
     assignedUser: assignedUser,
+    groupId: groupId,
   })
     .then((todos) => {
       console.log(todos);
