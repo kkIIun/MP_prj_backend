@@ -62,7 +62,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { deadline, title, assignedUser } = req.query;
-    var check = null;
+    var check;
     if (req.query.check == "true") check = true;
     if (req.query.check == "false") check = false;
 
