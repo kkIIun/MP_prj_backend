@@ -58,7 +58,9 @@ router.post("/", (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const { deadline, title, assignedUser, check } = req.query;
-  const user = await Profile.find().where("email").equals(assignedUser);
+  const user = await Profile.find({
+    email: assignedUser,
+  });
   console.log(user.email, assignedUser);
   if (assignedUser !== user.email) {
     return res.status(500).json({
