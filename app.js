@@ -9,7 +9,7 @@ const todoRouter = require("./routes/todo");
 const profileRouter = require("./routes/profile");
 const groupRouter = require("./routes/group");
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, "./.env") });
 const app = express();
 app.set("port", process.env.PORT || 3000);
 connect();

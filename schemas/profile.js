@@ -23,7 +23,7 @@ const profileSchema = new Schema({
     default: Date.now,
   },
   _id: {
-    type: Int32Array,
+    type: String,
     required: true,
     unique: true,
   },
