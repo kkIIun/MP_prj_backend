@@ -25,7 +25,10 @@ const todoSchema = new Schema({
     type: String,
     required: true,
   },
-  assignedUser: String,
+  assignedUser: {
+    type: String,
+    default: null,
+  },
   created_at: {
     type: Date,
     default: Date.now,

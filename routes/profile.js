@@ -1,19 +1,20 @@
 const express = require("express");
 const Profile = require("../schemas/profile");
 const ObjectId = require("mongoose").Types.ObjectId;
-
+const { isAuthToken } = require("./auth");
 const router = express.Router();
 
 router
   .route("/")
-  .get((req, res) => {
-    const { email, name } = req.query;
+  .get(isAuthToken, (req, res) => {
+    const { email, name, id } = req.query;
     Profile.find()
-      .where("email")
-      .equals(email)
+      .where("_id")
+      .equals(id)
       .then(async (user) => {
         if (!user.length) {
           user = await Profile.create({
+            _id: id,
             email: email,
             name: name,
           });
@@ -31,11 +32,11 @@ router
         });
       });
   })
-  .put((req, res) => {
-    const { email, avatar } = req.query;
+  .put(isAuthToken, (req, res) => {
+    const { id, avatar } = req.query;
     Profile.updateOne(
       {
-        email: email,
+        id: id,
       },
       {
         avatarSrc: avatar,

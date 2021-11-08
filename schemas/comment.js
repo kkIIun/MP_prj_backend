@@ -10,7 +10,7 @@ const commentSchema = new Schema({
     required: true,
   },
   group: {
-    type: String,
+    type: ObjectId,
     required: true,
   },
   commenter: {

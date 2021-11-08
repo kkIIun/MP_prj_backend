@@ -8,10 +8,10 @@ const profileSchema = new Schema({
     type: String,
     required: true,
   },
-  groups: [{ id: ObjectId, groupName: String, _id: false }],
+  groups: [{ _id: ObjectId, groupName: String }],
   avatarSrc: {
     type: String,
-    default: "null",
+    default: null,
   },
   email: {
     type: String,

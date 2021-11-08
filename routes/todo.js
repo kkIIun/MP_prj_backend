@@ -6,10 +6,10 @@ const { isAuthToken } = require("./auth");
 
 const router = express.Router();
 
-router.get("/my", (req, res) => {
+router.get("/my", isAuthToken, (req, res) => {
   Todo.find()
     .where("author")
-    .equals(req.query.email)
+    .equals(req.query.id)
     .where("groupId")
     .equals(null)
     .then((todos) => {
@@ -28,7 +28,7 @@ router.get("/my", (req, res) => {
 });
 
 router.post("/", isAuthToken, async (req, res) => {
-  const { email, deadline, title, assignedUser, groupId } = req.query;
+  const { id, deadline, title, assignedUser, groupId } = req.query;
   const user = await Profile.find({
     email: assignedUser,
   });
@@ -40,7 +40,7 @@ router.post("/", isAuthToken, async (req, res) => {
   }
 
   Todo.create({
-    author: email,
+    author: id,
     deadline: deadline,
     title: title,
     assignedUser: assignedUser,
@@ -62,7 +62,7 @@ router.post("/", isAuthToken, async (req, res) => {
     });
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAuthToken, async (req, res) => {
   try {
     const { deadline, title, assignedUser } = req.query;
     var check;
@@ -70,9 +70,9 @@ router.put("/:id", async (req, res) => {
     if (req.query.check == "false") check = false;
 
     const user = await Profile.find({
-      email: assignedUser,
+      _id: assignedUser,
     });
-
+    console.log(user);
     if (assignedUser && !user[0]) {
       return res.status(500).json({
         code: 500,
@@ -103,7 +103,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", isAuthToken, (req, res) => {
   Todo.deleteOne({
     _id: ObjectId(req.params.id),
   })
@@ -122,7 +122,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.get("/myGroup", (req, res) => {
+router.get("/myGroup", isAuthToken, (req, res) => {
   Todo.find()
     .where("groupId")
     .equals(req.query.groupId)
