@@ -7,12 +7,12 @@
     "mongoose": "^6.0.12",
     "morgan": "^1.10.0",
     "passport": "^0.5.0",
-    "passport-google-oauth2": "^0.2.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.14",
+    "passport-google-oauth2": "^0.2.0",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
   },
   "name": "mp_prj",
   "version": "1.0.0",
