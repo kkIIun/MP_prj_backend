@@ -28,7 +28,7 @@ router
   .post(isAuthToken, async (req, res) => {
     try {
       const { comment, groupId, commenter } = req.query;
-      const comments = await new Comment({
+      const comments = await Comment.create({
         comment: comment,
         groupId: groupId,
         commenter: commenter,
