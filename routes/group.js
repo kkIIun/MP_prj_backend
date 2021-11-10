@@ -5,34 +5,46 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const { isAuthToken } = require("./auth");
 const router = express.Router();
 
-router.post("/", isAuthToken, (req, res) => {
-  var group = new Group({
-    groupName: req.query.groupName,
-  });
-  const user = { _id: req.query.id, name: req.query.name };
-  if (!req.query.id || !req.query.name) {
-    return res.status(500).json({
-      code: 500,
-      message: "user정보를 입력해주세요.",
+router
+  .route("/")
+  .post(isAuthToken, async (req, res) => {
+    var group = await new Group({
+      groupName: req.query.groupName,
     });
-  }
-  group.users.push(user);
-  group
-    .save()
-    .then((group) => {
-      res.json({
-        code: 200,
-        payloads: group,
+    const user = { _id: req.query.id, name: req.query.name };
+    if (!req.query.id || !req.query.name) {
+      return res.status(500).json({
+        code: 500,
+        message: "user정보를 입력해주세요.",
       });
-    })
-    .catch((error) => {
+    }
+    group.users.push(user);
+    group
+      .save()
+      .then((group) => {
+        res.json({
+          code: 200,
+          payloads: group,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.status(500).json({
+          code: 500,
+          message: error._message,
+        });
+      });
+  })
+  .get(async (req, res) => {
+    try {
+    } catch (error) {
       console.error(error);
       return res.status(500).json({
         code: 500,
         message: error._message,
       });
-    });
-});
+    }
+  });
 
 router
   .route("/:id")

@@ -9,7 +9,7 @@ const commentSchema = new Schema({
     type: String,
     required: true,
   },
-  group: {
+  groupId: {
     type: ObjectId,
     required: true,
   },
