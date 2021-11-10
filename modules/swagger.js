@@ -8,7 +8,7 @@ const options = {
       version: "1.0.0",
       description: "MP-prj-backend with express",
     },
-    host: "localhost:3000",
+    host: "https://mp-prj-backend.herokuapp.com/",
     basePath: "/",
   },
   apis: ["./routes/*.js", "./swagger/*"],
