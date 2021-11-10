@@ -37,6 +37,15 @@ router
   })
   .get(async (req, res) => {
     try {
+      const groups = await Group.find()
+        .where("users._id")
+        .equals(req.query.id)
+        .sort("-date");
+      res.json({
+        code: 200,
+        payloads: groups,
+      });
+      console.log(groups);
     } catch (error) {
       console.error(error);
       return res.status(500).json({
