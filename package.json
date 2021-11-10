@@ -10,7 +10,9 @@
     "passport-google-oauth2": "^0.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6"
   },
   "name": "mp_prj",
   "version": "1.0.0",

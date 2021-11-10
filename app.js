@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const connect = require("./schemas");
 const axios = require("axios");
+const { swaggerUi, specs } = require("./modules/swagger");
 
 const todoRouter = require("./routes/todo");
 const profileRouter = require("./routes/profile");
@@ -18,6 +19,8 @@ app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
+
 app.use("/todo", todoRouter);
 app.use("/profile", profileRouter);
 app.use("/group", groupRouter);
