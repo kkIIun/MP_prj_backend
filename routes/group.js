@@ -5,6 +5,39 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const { isAuthToken } = require("./auth");
 const router = express.Router();
 
+/**
+ * @swagger
+ *  /group:
+ *    post:
+ *      tags:
+ *      - group
+ *      description: 그룹을 생성합니다.
+ *      produces:
+ *      - applicaion/json
+ *      parameters:
+ *      - name: groupName
+ *        in: query
+ *        description: "그룹 이름"
+ *        required: true
+ *        type: string
+ *      - name: id
+ *        in: query
+ *        description: "유저 id"
+ *        required: true
+ *        type: string
+ *      - name: name
+ *        in: query
+ *        description: "유저 이름"
+ *        required: true
+ *        type: string
+ *      responses:
+ *       200:
+ *        description: 그룹 생성 성공
+ *        schema:
+ *          type: array
+ *          items:
+ *           $ref: '#/definition/schemas/group'
+ */
 router.route("/").post(isAuthToken, async (req, res) => {
   var group = await new Group({
     groupName: req.query.groupName,
