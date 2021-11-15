@@ -10,6 +10,13 @@ const options = {
     },
     host: "mp-prj-backend.herokuapp.com",
     basePath: "/",
+    securityDefinitions: {
+      api_key: {
+        type: "apiKey",
+        in: "header",
+        name: "Authorization",
+      },
+    },
   },
   apis: ["./routes/*.js", "./swagger/*"],
 };

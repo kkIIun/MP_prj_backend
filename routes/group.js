@@ -30,6 +30,8 @@ const router = express.Router();
  *        description: "유저 이름"
  *        required: true
  *        type: string
+ *      security:
+ *      - Authorization: []
  *      responses:
  *       200:
  *        description: 그룹 생성 성공
