@@ -3,13 +3,21 @@ definitions:
     Group:
       properties:
         _id:
-          type: ObjectId
+          type: string
           description: 그룹 id
         groupName:
           type: string
           description: 그룹 이름
         users:
           type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              name:
+                type: string
+
           description: 그룹에 참가한 유저의 정보
         created_at:
           type: date
