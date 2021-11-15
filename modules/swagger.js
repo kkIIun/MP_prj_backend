@@ -2,14 +2,15 @@ const swaggerUi = require("swagger-ui-express");
 const swaggereJsdoc = require("swagger-jsdoc");
 
 const options = {
-  openapi: "3.0.3",
-  info: {
-    title: "MP-prj-backend API",
-    version: "1.0.0",
-    description: "MP-prj-backend with express",
+  swaggerDefinition: {
+    info: {
+      title: "MP-prj-backend API",
+      version: "1.0.0",
+      description: "MP-prj-backend with express",
+    },
+    host: "mp-prj-backend.herokuapp.com",
+    basePath: "/",
   },
-  host: "https://mp-prj-backend.herokuapp.com",
-  basePath: "/",
   apis: ["./routes/*.js", "./swagger/*"],
 };
 

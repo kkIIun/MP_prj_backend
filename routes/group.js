@@ -36,7 +36,7 @@ const router = express.Router();
  *        schema:
  *          type: array
  *          items:
- *           $ref: '#/definition/schemas/group'
+ *           $ref: '#/definitions/schemas/Group'
  */
 router.route("/").post(isAuthToken, async (req, res) => {
   var group = await new Group({
