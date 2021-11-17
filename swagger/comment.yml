@@ -1,0 +1,20 @@
+definitions:
+  schemas:
+    Comment:
+      properties:
+        _id:
+          type: string
+          description: 댓글 id
+        comment:
+          type: string
+          description: 댓글 내용
+        groupId:
+          type: string
+          description: 그룹 id
+        commenter:
+          type: string
+          description: 댓글 작성자
+        created_at:
+          type: string
+          format: date
+          description: 만들어진 날짜

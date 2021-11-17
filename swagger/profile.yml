@@ -1,0 +1,24 @@
+definitions:
+  schemas:
+    Profile:
+      properties:
+        _id:
+          type: string
+          description: 유저 id
+        name:
+          type: string
+          description: 유저 이름
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              groupName:
+                type: string
+          description: 유저가 참여한 그룹의 목록
+        created_at:
+          type: string
+          format: date
+          description: 만들어진 날짜

@@ -1,0 +1,30 @@
+definitions:
+  schemas:
+    Todo:
+      properties:
+        _id:
+          type: string
+          description: todo id
+        title:
+          type: string
+          description: todo 내용
+        groupId:
+          type: string
+          description: 그룹 id
+        check:
+          type: boolean
+          description: todo 완료 여부
+        author:
+          type: string
+          description: todo 작성자
+        assignedUser:
+          type: string
+          description: todo 배정받은 유저
+        created_at:
+          type: string
+          format: date
+          description: 만들어진 날짜
+        deadline:
+          type: string
+          format: date
+          description: 마감 날짜

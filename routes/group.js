@@ -69,6 +69,43 @@ router.route("/").post(isAuthToken, async (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ *  /group/:id:
+ *    put:
+ *      tags:
+ *      - group
+ *      description: 그룹을 수정합니다.
+ *      produces:
+ *      - applicaion/json
+ *      parameters:
+ *      - name: groupName
+ *        in: query
+ *        description: "그룹 이름"
+ *        required: true
+ *        type: string
+ *      security:
+ *      - Authorization: []
+ *      responses:
+ *       200:
+ *        description: 그룹 수정 성공
+ */
+
+/**
+ * @swagger
+ *  /group/:id:
+ *    delete:
+ *      tags:
+ *      - group
+ *      description: 그룹을 수정합니다.
+ *      produces:
+ *      - applicaion/json
+ *      security:
+ *      - Authorization: []
+ *      responses:
+ *       200:
+ *        description: 그룹 삭제 성공
+ */
 router
   .route("/:id")
   .put(isAuthToken, (req, res) => {
@@ -113,6 +150,37 @@ router
       });
   });
 
+/**
+ * @swagger
+ *  /group/join/:id:
+ *    put:
+ *      tags:
+ *      - group
+ *      description: 그룹에 조인합니다.
+ *      produces:
+ *      - applicaion/json
+ *      parameters:
+ *      - name: groupName
+ *        in: query
+ *        description: "그룹 이름"
+ *        required: true
+ *        type: string
+ *      - name: id
+ *        in: query
+ *        description: "유저 id"
+ *        required: true
+ *        type: string
+ *      - name: name
+ *        in: query
+ *        description: "유저 이름"
+ *        required: true
+ *        type: string
+ *      security:
+ *      - Authorization: []
+ *      responses:
+ *       200:
+ *        description: group 조인 성공
+ */
 router.put("/join/:id", isAuthToken, async (req, res) => {
   try {
     const userData = { _id: req.query.id, name: req.query.name };
