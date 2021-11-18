@@ -43,7 +43,7 @@ router.route("/").post(isAuthToken, async (req, res) => {
     var group = await new Group({
       groupName: req.query.groupName,
     });
-    group.users.push(req.query.userId);
+    group.users.push({ _id: req.query.userId });
     group.save();
     res.json({
       code: 200,
@@ -194,8 +194,8 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
         message: "해당 group 정보가 없습니다.",
       });
     }
-    group[0].users.push(user[0]._id);
-    user[0].groups.push(ObjectId(group._id));
+    group[0].users.push({ _id: user[0]._id });
+    user[0].groups.push({ _id: ObjectId(group._id) });
     group[0].save();
     user[0].save();
     res.json({
