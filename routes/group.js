@@ -205,9 +205,10 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
 
     const userData = { _id: user._id, name: user.name };
     const groupData = { _id: ObjectId(group._id), groupNname: group.groupName };
-    group.users.push(userData);
-    user.groups.push(groupData);
-
+    group[0].users.push(userData);
+    user[0].groups.push(groupData);
+    group.save();
+    user.save();
     res.json({
       code: 200,
       message: "group 조인 성공",
