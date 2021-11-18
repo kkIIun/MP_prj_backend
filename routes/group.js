@@ -25,11 +25,6 @@ const router = express.Router();
  *        description: "유저 id"
  *        required: true
  *        type: string
- *      - name: name
- *        in: query
- *        description: "유저 이름"
- *        required: true
- *        type: string
  *      security:
  *      - Authorization: []
  *      responses:
@@ -41,17 +36,19 @@ const router = express.Router();
  *           $ref: '#/definitions/schemas/Group'
  */
 router.route("/").post(isAuthToken, async (req, res) => {
-  var group = await new Group({
-    groupName: req.query.groupName,
-  });
-  const user = { _id: req.query.id, name: req.query.name };
   if (!req.query.id || !req.query.name) {
     return res.status(500).json({
       code: 500,
       message: "user정보를 입력해주세요.",
     });
   }
-  group.users.push(user);
+
+  var group = await new Group({
+    groupName: req.query.groupName,
+  });
+  const user = await Profile.find().where("_id").equals(req.query.userId);
+  const userData = { _id: user._id, name: user.name };
+  group.users.push(userData);
   group
     .save()
     .then((group) => {
@@ -176,19 +173,9 @@ router
  *        required: true
  *        type: string
  *        description: 그룹 id
- *      - name: groupName
- *        in: query
- *        description: "그룹 이름"
- *        required: true
- *        type: string
  *      - name: userId
  *        in: query
  *        description: "유저 id"
- *        required: true
- *        type: string
- *      - name: name
- *        in: query
- *        description: "유저 이름"
  *        required: true
  *        type: string
  *      security:
@@ -199,27 +186,28 @@ router
  */
 router.put("/join/:id", isAuthToken, async (req, res) => {
   try {
-    const userData = { _id: req.query.id, name: req.query.name };
-    const group = await Group.updateOne(
-      {
-        _id: req.params.id,
-      },
-      {
-        $push: { users: userData },
-      }
-    );
-    const groupData = {
-      _id: ObjectId(req.params.id),
-      groupName: req.query.groupName,
-    };
-    await Profile.updateOne(
-      {
-        _id: req.query.id,
-      },
-      {
-        $push: { groups: groupData },
-      }
-    );
+    var user = await Profile.find().where("_id").equals(req.query.userId);
+    var group = await Group.find().where("_id").equals(req.params.id);
+
+    if (!user[0]) {
+      return res.json({
+        code: 500,
+        message: "해당 user 정보가 없습니다.",
+      });
+    }
+
+    if (!group[0]) {
+      return res.json({
+        code: 500,
+        message: "해당 group 정보가 없습니다.",
+      });
+    }
+
+    const userData = { _id: user._id, name: user.name };
+    const groupData = { _id: ObjectId(group._id), groupNname: group.groupName };
+    group.users.push(userData);
+    user.groups.push(groupData);
+
     res.json({
       code: 200,
       message: "group 조인 성공",
@@ -233,6 +221,32 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ *  /group/remove/{id}:
+ *    put:
+ *      tags:
+ *      - group
+ *      description: 그룹에 조인합니다.
+ *      produces:
+ *      - applicaion/json
+ *      parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        type: string
+ *        description: 그룹 id
+ *      - name: userId
+ *        in: query
+ *        description: "유저 id"
+ *        required: true
+ *        type: string
+ *      security:
+ *      - Authorization: []
+ *      responses:
+ *       200:
+ *        description: group 조인 성공
+ */
 router.put("/remove/:id", isAuthToken, async (req, res) => {
   try {
     const group = await Group.find({
@@ -244,12 +258,12 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
         message: "해당그룹이 없습니다.",
       });
     }
-    if (group[0].users[0]._id !== req.params.id) {
-      return res.status(500).json({
-        code: 500,
-        message: "그룹장이 아닙니다",
-      });
-    }
+    // if (group.users[0]._id !== req.query.userId) {
+    //   return res.status(500).json({
+    //     code: 500,
+    //     message: "그룹장이 아닙니다",
+    //   });
+    // }
     group.users.pull({ _id: req.query.userId });
     res.json({
       code: 200,
