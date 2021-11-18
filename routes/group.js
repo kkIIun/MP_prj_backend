@@ -20,7 +20,7 @@ const router = express.Router();
  *        description: "그룹 이름"
  *        required: true
  *        type: string
- *      - name: id
+ *      - name: userId
  *        in: query
  *        description: "유저 id"
  *        required: true
@@ -33,7 +33,7 @@ const router = express.Router();
  */
 router.route("/").post(isAuthToken, async (req, res) => {
   try {
-    if (!req.query.id) {
+    if (!req.query.userId) {
       return res.status(500).json({
         code: 500,
         message: "user정보를 입력해주세요.",
@@ -262,9 +262,7 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
     //   });
     // }
     group[0].users.pull({ _id: user[0]._id });
-    user[0].groups.pull({
-      _id: ObjectId(group[0]._id),
-    });
+    user[0].groups.pull({ _id: group[0]._id });
     group[0].save();
     user[0].save();
     res.json({
