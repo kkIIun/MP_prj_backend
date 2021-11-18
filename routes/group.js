@@ -195,7 +195,7 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
       });
     }
     group[0].users.push({ _id: user[0]._id });
-    user[0].groups.push({ _id: ObjectId(group._id) });
+    user[0].groups.push({ _id: group[0]._id });
     group[0].save();
     user[0].save();
     res.json({
@@ -262,7 +262,7 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
     //   });
     // }
     group[0].users.pull({ _id: user[0]._id });
-    user[0].groups.pull({ _id: ObjectId(req.params.id) });
+    user[0].groups.pull({ _id: group[0]._id });
     group[0].save();
     user[0].save();
     res.json({
