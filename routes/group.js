@@ -261,6 +261,7 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
     //     message: "그룹장이 아닙니다",
     //   });
     // }
+    console.log(group[0]._id);
     group[0].users.pull({ _id: user[0]._id });
     user[0].groups.pull({ _id: group[0]._id });
     group[0].save();
