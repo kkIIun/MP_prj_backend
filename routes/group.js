@@ -188,7 +188,7 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
   try {
     var user = await Profile.find().where("_id").equals(req.query.userId)[0];
     var group = await Group.find().where("_id").equals(req.params.id)[0];
-
+    console.log(user, group);
     if (!user) {
       return res.json({
         code: 500,
