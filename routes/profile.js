@@ -42,7 +42,7 @@ const router = express.Router();
 
 /**
  * @swagger
- *  /profile/:id:
+ *  /profile/{id}:
  *    put:
  *      tags:
  *      - profile
@@ -50,6 +50,11 @@ const router = express.Router();
  *      produces:
  *      - applicaion/json
  *      parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        type: string
+ *        description: 유저 id
  *      - name: avatar
  *        in: query
  *        description: "프로필 이미지 res"

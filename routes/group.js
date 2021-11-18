@@ -71,7 +71,7 @@ router.route("/").post(isAuthToken, async (req, res) => {
 
 /**
  * @swagger
- *  /group/:id:
+ *  /group/{id}:
  *    put:
  *      tags:
  *      - group
@@ -79,6 +79,11 @@ router.route("/").post(isAuthToken, async (req, res) => {
  *      produces:
  *      - applicaion/json
  *      parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        type: string
+ *        description: 그룹 id
  *      - name: groupName
  *        in: query
  *        description: "그룹 이름"
@@ -93,13 +98,19 @@ router.route("/").post(isAuthToken, async (req, res) => {
 
 /**
  * @swagger
- *  /group/:id:
+ *  /group/{id}:
  *    delete:
  *      tags:
  *      - group
  *      description: 그룹을 수정합니다.
  *      produces:
  *      - applicaion/json
+ *      parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        type: string
+ *        description: 그룹 id
  *      security:
  *      - Authorization: []
  *      responses:
@@ -152,7 +163,7 @@ router
 
 /**
  * @swagger
- *  /group/join/:id:
+ *  /group/join/{id}:
  *    put:
  *      tags:
  *      - group
@@ -160,12 +171,17 @@ router
  *      produces:
  *      - applicaion/json
  *      parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        type: string
+ *        description: 그룹 id
  *      - name: groupName
  *        in: query
  *        description: "그룹 이름"
  *        required: true
  *        type: string
- *      - name: id
+ *      - name: userId
  *        in: query
  *        description: "유저 id"
  *        required: true
@@ -228,7 +244,13 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
         message: "해당그룹이 없습니다.",
       });
     }
-    group.users.pull({ _id: req.query.id });
+    if (group[0].users[0]._id !== req.params.id) {
+      return res.status(500).json({
+        code: 500,
+        message: "그룹장이 아닙니다",
+      });
+    }
+    group.users.pull({ _id: req.query.userId });
     res.json({
       code: 200,
       message: "group user 삭제 성공",
