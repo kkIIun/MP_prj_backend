@@ -33,7 +33,7 @@ const router = express.Router();
  */
 router.route("/").post(isAuthToken, async (req, res) => {
   try {
-    if (!req.query.id || !req.query.name) {
+    if (!req.query.id) {
       return res.status(500).json({
         code: 500,
         message: "user정보를 입력해주세요.",
