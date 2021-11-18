@@ -30,40 +30,32 @@ const router = express.Router();
  *      responses:
  *       200:
  *        description: 그룹 생성 성공
- *        schema:
- *          type: array
- *          items:
- *           $ref: '#/definitions/schemas/Group'
  */
 router.route("/").post(isAuthToken, async (req, res) => {
-  if (!req.query.id || !req.query.name) {
-    return res.status(500).json({
-      code: 500,
-      message: "user정보를 입력해주세요.",
-    });
-  }
-
-  var group = await new Group({
-    groupName: req.query.groupName,
-  });
-  const user = await Profile.find().where("_id").equals(req.query.userId);
-  const userData = { _id: user[0]._id, name: user[0].name };
-  group.users.push(userData);
-  group
-    .save()
-    .then((group) => {
-      res.json({
-        code: 200,
-        payloads: group,
-      });
-    })
-    .catch((error) => {
-      console.error(error);
+  try {
+    if (!req.query.id || !req.query.name) {
       return res.status(500).json({
         code: 500,
-        message: error._message,
+        message: "user정보를 입력해주세요.",
       });
+    }
+
+    var group = await new Group({
+      groupName: req.query.groupName,
     });
+    group.users.push(req.query.userId);
+    group.save();
+    res.json({
+      code: 200,
+      message: "그룹 생성 성공",
+    });
+  } catch (err) {
+    console.error(error);
+    return res.status(500).json({
+      code: 500,
+      message: error._message,
+    });
+  }
 });
 
 /**
@@ -202,14 +194,8 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
         message: "해당 group 정보가 없습니다.",
       });
     }
-
-    const userData = { _id: user[0]._id, name: user[0].name };
-    const groupData = {
-      _id: ObjectId(group._id),
-      groupName: group[0].groupName,
-    };
-    group[0].users.push(userData);
-    user[0].groups.push(groupData);
+    group[0].users.push(user[0]._id);
+    user[0].groups.push(ObjectId(group._id));
     group[0].save();
     user[0].save();
     res.json({
@@ -275,12 +261,12 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
     //     message: "그룹장이 아닙니다",
     //   });
     // }
-    await group[0].users.pull({ _id: user[0]._id, name: user[0].name });
-    await user[0].groups.pull({
+    group[0].users.pull({ _id: user[0]._id });
+    user[0].groups.pull({
       _id: ObjectId(group[0]._id),
-      groupName: group[0].groupName,
     });
-
+    group[0].save();
+    user[0].save();
     res.json({
       code: 200,
       message: "group user 삭제 성공",

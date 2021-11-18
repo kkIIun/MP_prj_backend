@@ -8,7 +8,7 @@ const profileSchema = new Schema({
     type: String,
     required: true,
   },
-  groups: [{ _id: ObjectId, groupName: String }],
+  groups: [{ _id: ObjectId }],
   avatarSrc: {
     type: String,
     default: null,
