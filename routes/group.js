@@ -47,7 +47,7 @@ router.route("/").post(isAuthToken, async (req, res) => {
     groupName: req.query.groupName,
   });
   const user = await Profile.find().where("_id").equals(req.query.userId);
-  const userData = { _id: user._id, name: user.name };
+  const userData = { _id: user[0]._id, name: user[0].name };
   group.users.push(userData);
   group
     .save()
@@ -203,8 +203,11 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
       });
     }
 
-    const userData = { _id: user._id, name: user.name };
-    const groupData = { _id: ObjectId(group._id), groupNname: group.groupName };
+    const userData = { _id: user[0]._id, name: user[0].name };
+    const groupData = {
+      _id: ObjectId(group._id),
+      groupNname: group[0].groupName,
+    };
     group[0].users.push(userData);
     user[0].groups.push(groupData);
     group[0].save();
@@ -250,9 +253,10 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
  */
 router.put("/remove/:id", isAuthToken, async (req, res) => {
   try {
-    const group = await Group.find({
+    var group = await Group.find({
       _id: req.params.id,
     });
+
     if (!group[0]) {
       return res.status(500).json({
         code: 500,
@@ -265,7 +269,7 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
     //     message: "그룹장이 아닙니다",
     //   });
     // }
-    group.users.pull({ _id: req.query.userId });
+    group[0].users.pull({ _id: req.query.userId });
     res.json({
       code: 200,
       message: "group user 삭제 성공",
