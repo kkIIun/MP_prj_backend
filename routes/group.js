@@ -186,17 +186,17 @@ router
  */
 router.put("/join/:id", isAuthToken, async (req, res) => {
   try {
-    var user = await Profile.find().where("_id").equals(req.query.userId);
-    var group = await Group.find().where("_id").equals(req.params.id);
+    var user = await Profile.find().where("_id").equals(req.query.userId)[0];
+    var group = await Group.find().where("_id").equals(req.params.id)[0];
 
-    if (!user[0]) {
+    if (!user) {
       return res.json({
         code: 500,
         message: "해당 user 정보가 없습니다.",
       });
     }
 
-    if (!group[0]) {
+    if (!group) {
       return res.json({
         code: 500,
         message: "해당 group 정보가 없습니다.",
@@ -205,8 +205,8 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
 
     const userData = { _id: user._id, name: user.name };
     const groupData = { _id: ObjectId(group._id), groupNname: group.groupName };
-    group[0].users.push(userData);
-    user[0].groups.push(groupData);
+    group.users.push(userData);
+    user.groups.push(groupData);
     group.save();
     user.save();
     res.json({
