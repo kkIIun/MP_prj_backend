@@ -262,7 +262,7 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
     //   });
     // }
     group[0].users.pull({ _id: user[0]._id });
-    user[0].groups.pull({ _id: req.params.id });
+    user[0].groups.pull({ _id: ObjectId(req.params.id) });
     group[0].save();
     user[0].save();
     res.json({
