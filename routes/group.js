@@ -91,7 +91,7 @@ router.route("/").post(isAuthToken, async (req, res) => {
  *    delete:
  *      tags:
  *      - group
- *      description: 그룹을 수정합니다.
+ *      description: 그룹을 삭제합니다.
  *      produces:
  *      - applicaion/json
  *      parameters:
@@ -105,6 +105,32 @@ router.route("/").post(isAuthToken, async (req, res) => {
  *      responses:
  *       200:
  *        description: 그룹 삭제 성공
+ */
+
+/**
+ * @swagger
+ *  /group/{id}:
+ *    get:
+ *      tags:
+ *      - group
+ *      description: 그룹의 정보를 가져옵니다.
+ *      produces:
+ *      - applicaion/json
+ *      parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        type: string
+ *        description: 그룹 id
+ *      security:
+ *      - Authorization: []
+ *      responses:
+ *       200:
+ *        description: 그룹 삭제 성공
+ *        schema:
+ *          type: array
+ *          items:
+ *           $ref: '#/definitions/schemas/Group'
  */
 router
   .route("/:id")
@@ -148,6 +174,24 @@ router
           message: error._message,
         });
       });
+  })
+  .get(isAuthToken, async (req, res) => {
+    try {
+      const group = Group.findOne({ _id: req.params.id }).populate(
+        "users",
+        "name"
+      );
+      res.json({
+        code: 200,
+        payloads: group,
+      });
+    } catch (err) {
+      console.error(error);
+      return res.status(500).json({
+        code: 500,
+        message: error._message,
+      });
+    }
   });
 
 /**

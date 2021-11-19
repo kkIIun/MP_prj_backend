@@ -12,6 +12,7 @@ const todoSchema = new Schema({
   groupId: {
     type: ObjectId,
     default: null,
+    ref: "Group",
   },
   title: {
     type: String,
@@ -24,10 +25,12 @@ const todoSchema = new Schema({
   author: {
     type: String,
     required: true,
+    ref: "Profile",
   },
   assignedUser: {
     type: String,
     default: null,
+    ref: "Profile",
   },
   created_at: {
     type: Date,

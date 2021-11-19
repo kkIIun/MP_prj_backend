@@ -12,10 +12,12 @@ const commentSchema = new Schema({
   groupId: {
     type: ObjectId,
     required: true,
+    ref: "Group",
   },
   commenter: {
     type: String,
     required: true,
+    ref: "Profile",
   },
   created_at: {
     type: Date,
