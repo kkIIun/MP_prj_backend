@@ -47,7 +47,7 @@ router.route("/").post(isAuthToken, async (req, res) => {
     group.save();
     res.json({
       code: 200,
-      message: "그룹 생성 성공",
+      payloads: group,
     });
   } catch (err) {
     console.error(error);
