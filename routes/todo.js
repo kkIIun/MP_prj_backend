@@ -6,7 +6,7 @@ const { isAuthToken } = require("./auth");
 
 const router = express.Router();
 
-router.get("/my", isAuthToken, (req, res) => {
+router.get("/", isAuthToken, (req, res) => {
   Todo.find()
     .where("author")
     .equals(req.query.id)
