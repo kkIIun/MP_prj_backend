@@ -75,19 +75,20 @@ router.route("/").get(isAuthToken, (req, res) => {
     .populate("groups", "groupName")
     .then(async (user) => {
       if (!user.length) {
-        user = await Profile.create({
+        var user = await Profile.create({
           _id: id,
           email: email,
           name: name,
         });
-        const group = await Group.create({
+        var group = await Group.create({
           groupName: "개인",
         });
-        group.users.push({ _id: req.query.userId });
-        group.save();
+        console.log(user, group);
+        group.users.push({ _id: id });
         user.groups.push({ _id: group._id });
+        group.save();
         user.save();
-        user.populate("groups", "groupName");
+        await user.populate("groups", "groupName");
       }
       res.json({
         code: 200,
