@@ -11,7 +11,7 @@ const todoSchema = new Schema({
   },
   groupId: {
     type: ObjectId,
-    default: null,
+    required: true,
     ref: "Group",
   },
   title: {

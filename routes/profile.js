@@ -1,5 +1,6 @@
 const express = require("express");
 const Profile = require("../schemas/profile");
+const Group = require("../schemas/group");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { isAuthToken } = require("./auth");
 const router = express.Router();
@@ -79,6 +80,14 @@ router.route("/").get(isAuthToken, (req, res) => {
           email: email,
           name: name,
         });
+        const group = await Group.create({
+          groupName: "개인",
+        });
+        group.users.push({ _id: req.query.userId });
+        group.save();
+        user.groups.push({ _id: group._id });
+        user.save();
+        user.populate("groups", "groupName");
       }
       res.json({
         code: 200,
@@ -104,10 +113,10 @@ router.route("/:id").put(isAuthToken, (req, res) => {
       avatarSrc: avatar,
     }
   )
-    .then(() => {
+    .then((user) => {
       res.json({
         code: 200,
-        message: "프로필 수정 성공",
+        payloads: user,
       });
     })
     .catch((error) => {
