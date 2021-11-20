@@ -43,8 +43,11 @@ router.route("/").post(isAuthToken, async (req, res) => {
     var group = await new Group({
       groupName: req.query.groupName,
     });
+    var user = await Profile.find().where("_id").equals(req.query.userId);
     group.users.push({ _id: req.query.userId });
+    user.groups.push({ _id: group._id });
     group.save();
+    user.save();
     res.json({
       code: 200,
       message: "그룹을 생성하였습니다.",
