@@ -114,7 +114,8 @@ router.route("/:id").put(isAuthToken, (req, res) => {
       avatarSrc: avatar,
     }
   )
-    .then((user) => {
+    .then(async (user) => {
+      await user.populate("groups", "groupName");
       res.json({
         code: 200,
         payloads: user,
