@@ -126,7 +126,7 @@ router.route("/").post(isAuthToken, async (req, res) => {
  *      - Authorization: []
  *      responses:
  *       200:
- *        description: 그룹 삭제 성공
+ *        description: 그룹 가져오기
  *        schema:
  *          type: array
  *          items:

@@ -71,6 +71,7 @@ router.route("/").get(isAuthToken, (req, res) => {
   Profile.find()
     .where("_id")
     .equals(id)
+    .populate("groups", "groupName")
     .then(async (user) => {
       if (!user.length) {
         user = await Profile.create({
