@@ -205,10 +205,11 @@ router
   })
   .get(isAuthToken, async (req, res) => {
     try {
-      const group = Group.findOne({ _id: req.params.id }).populate(
+      const group = await Group.findOne({ _id: req.params.id }).populate(
         "users",
         "name"
       );
+      console.log(group);
       res.json({
         code: 200,
         payloads: group,
