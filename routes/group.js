@@ -267,7 +267,14 @@ router.put("/join/:id", isAuthToken, async (req, res) => {
         message: "해당 group 정보가 없습니다.",
       });
     }
-    group[0].users.push({ _id: user[0]._id });
+
+    if (group[0].users.indexOf(user[0]._id) !== -1) {
+      return res.json({
+        code: 500,
+        message: "이미 group에 참여중입니다.",
+      });
+    }
+    if (group[0].user) group[0].users.push({ _id: user[0]._id });
     user[0].groups.push({ _id: group[0]._id });
     group[0].save();
     user[0].save();
