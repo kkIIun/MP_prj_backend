@@ -308,6 +308,7 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
         message: "해당 group 정보가 없습니다.",
       });
     }
+
     // if (group.users[0]._id !== req.query.userId) {
     //   return res.status(500).json({
     //     code: 500,
@@ -318,6 +319,10 @@ router.put("/remove/:id", isAuthToken, async (req, res) => {
     user[0].groups.pull({ _id: group[0]._id });
     group[0].save();
     user[0].save();
+    if (!group[0].users.length)
+      await Group.deleteOne({
+        _id: group[0]._id,
+      });
     res.json({
       code: 200,
       message: "group user 삭제 성공",
