@@ -83,7 +83,7 @@ router.route("/").get(isAuthToken, (req, res) => {
         var group = await Group.create({
           groupName: "개인",
         });
-        console.log(user, group);
+        
         group.users.push({ _id: id });
         user.groups.push({ _id: group._id });
         group.save();

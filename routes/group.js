@@ -44,10 +44,16 @@ router.route("/").post(isAuthToken, async (req, res) => {
       groupName: req.query.groupName,
     });
     var user = await Profile.find().where("_id").equals(req.query.userId);
+    if (!user[0]) {
+      return res.json({
+        code: 500,
+        message: "해당 user 정보가 없습니다.",
+      });
+    }
     group.users.push({ _id: req.query.userId });
-    user.groups.push({ _id: group._id });
+    user[0].groups.push({ _id: group._id });
     group.save();
-    user.save();
+    user[0].save();
     res.json({
       code: 200,
       message: "그룹을 생성하였습니다.",
