@@ -39,7 +39,26 @@ router.route("/").post(isAuthToken, async (req, res) => {
         message: "user정보를 입력해주세요.",
       });
     }
-
+    console.log(req.query.groupName);
+    if (
+      req.query.groupName === "" ||
+      req.query.groupName === " " ||
+      req.query.groupName === "  "
+    ) {
+      return res.json({
+        code: 500,
+        message: "잘못된 groupName입니다.",
+      });
+    }
+    var group = await Group.find({
+      groupName: req.query.groupName,
+    });
+    console.log(group, group.length);
+    if (group.length)
+      return res.json({
+        code: 500,
+        message: "중복된 groupName입니다.",
+      });
     var group = await new Group({
       groupName: req.query.groupName,
     });
@@ -58,7 +77,7 @@ router.route("/").post(isAuthToken, async (req, res) => {
       code: 200,
       message: "그룹을 생성하였습니다.",
     });
-  } catch (err) {
+  } catch (error) {
     console.error(error);
     return res.status(500).json({
       code: 500,
