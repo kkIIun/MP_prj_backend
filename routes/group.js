@@ -213,7 +213,7 @@ router
         code: 200,
         payloads: group,
       });
-    } catch (err) {
+    } catch (error) {
       console.error(error);
       return res.status(500).json({
         code: 500,
