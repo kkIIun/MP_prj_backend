@@ -83,7 +83,7 @@ router.route("/").get(isAuthToken, (req, res) => {
         var group = await Group.create({
           groupName: "개인",
         });
-        
+
         group.users.push({ _id: id });
         user.groups.push({ _id: group._id });
         group.save();
@@ -115,10 +115,9 @@ router.route("/:id").put(isAuthToken, (req, res) => {
     }
   )
     .then(async (user) => {
-      await user.populate("groups", "groupName");
       res.json({
         code: 200,
-        payloads: user,
+        message: "유저 정보 수정 성공",
       });
     })
     .catch((error) => {
