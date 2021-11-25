@@ -9,7 +9,7 @@ const todoSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  groupId: {
+  projectId: {
     type: ObjectId,
     required: true,
     ref: "Group",
@@ -25,11 +25,6 @@ const todoSchema = new Schema({
   author: {
     type: String,
     required: true,
-    ref: "Profile",
-  },
-  assignedUser: {
-    type: String,
-    default: null,
     ref: "Profile",
   },
   created_at: {

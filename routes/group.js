@@ -1,6 +1,7 @@
 const express = require("express");
 const Group = require("../schemas/group");
 const Profile = require("../schemas/profile");
+const Project = require("../schemas/project");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { isAuthToken } = require("./auth");
 const router = express.Router();
@@ -50,6 +51,13 @@ router.route("/").post(isAuthToken, async (req, res) => {
         message: "잘못된 groupName입니다.",
       });
     }
+    var user = await Profile.find().where("_id").equals(req.query.userId);
+    if (!user[0]) {
+      return res.json({
+        code: 500,
+        message: "해당 user 정보가 없습니다.",
+      });
+    }
     var group = await Group.find({
       groupName: req.query.groupName,
     });
@@ -62,13 +70,10 @@ router.route("/").post(isAuthToken, async (req, res) => {
     var group = await new Group({
       groupName: req.query.groupName,
     });
-    var user = await Profile.find().where("_id").equals(req.query.userId);
-    if (!user[0]) {
-      return res.json({
-        code: 500,
-        message: "해당 user 정보가 없습니다.",
-      });
-    }
+    await Project.create({
+      groupId: group.id,
+      projectName: "Todo",
+    });
     group.users.push({ _id: req.query.userId });
     user[0].groups.push({ _id: group._id });
     group.save();
