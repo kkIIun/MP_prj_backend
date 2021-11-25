@@ -8,10 +8,8 @@ const router = express.Router();
 
 router.get("/", isAuthToken, (req, res) => {
   Todo.find()
-    .where("author")
-    .equals(req.query.id)
-    .where("groupId")
-    .equals(null)
+    .where("projectId")
+    .equals(OjbectId(req.query.projectId))
     .then((todos) => {
       res.json({
         code: 200,
@@ -121,25 +119,4 @@ router.delete("/:id", isAuthToken, (req, res) => {
       });
     });
 });
-
-router.get("/myGroup", isAuthToken, (req, res) => {
-  Todo.find()
-    .where("groupId")
-    .equals(req.query.groupId)
-    .then((todos) => {
-      console.log(todos);
-      res.json({
-        code: 200,
-        payloads: todos,
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      return res.status(500).json({
-        code: 500,
-        message: error._message,
-      });
-    });
-});
-
 module.exports = router;

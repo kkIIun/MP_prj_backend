@@ -12,7 +12,7 @@ const todoSchema = new Schema({
   projectId: {
     type: ObjectId,
     required: true,
-    ref: "Group",
+    ref: "Project",
   },
   title: {
     type: String,
