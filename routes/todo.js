@@ -26,23 +26,15 @@ router.get("/", isAuthToken, (req, res) => {
 });
 
 router.post("/", isAuthToken, async (req, res) => {
-  const { id, deadline, title, assignedUser, groupId } = req.query;
-  const user = await Profile.find({
-    email: assignedUser,
-  });
-  if (assignedUser && !user[0]) {
-    return res.status(500).json({
-      code: 500,
-      message: "배정할 유저가 존재하지 않습니다.",
-    });
-  }
+  const { userId, beginDate, endDate, title, projectId, color } = req.query;
 
   Todo.create({
-    author: id,
-    deadline: deadline,
+    author: userId,
+    endDate: endDate,
+    beginDate: beginDate,
+    color: color,
     title: title,
-    assignedUser: assignedUser,
-    groupId: groupId,
+    projectId: projectId,
   })
     .then((todos) => {
       console.log(todos);

@@ -5,7 +5,7 @@ const {
   Types: { ObjectId },
 } = Schema;
 const todoSchema = new Schema({
-  deadline: {
+  endDate: {
     type: Date,
     default: Date.now,
   },
@@ -27,7 +27,11 @@ const todoSchema = new Schema({
     required: true,
     ref: "Profile",
   },
-  created_at: {
+  color: {
+    type: String,
+    required: true,
+  },
+  beginDate: {
     type: Date,
     default: Date.now,
   },
