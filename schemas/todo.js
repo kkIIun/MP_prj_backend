@@ -14,6 +14,11 @@ const todoSchema = new Schema({
     required: true,
     ref: "Project",
   },
+  groupId: {
+    type: ObjectId,
+    required: true,
+    ref: "Group",
+  },
   title: {
     type: String,
     required: true,

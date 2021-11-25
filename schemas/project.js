@@ -12,6 +12,7 @@ const projectSchema = new Schema({
     type: ObjectId,
     required: true,
   },
+  todos: [{ type: ObjectId, ref: "Todo" }],
   created_at: {
     type: Date,
     default: Date.now,

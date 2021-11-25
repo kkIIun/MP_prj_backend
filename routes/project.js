@@ -1,6 +1,6 @@
 const express = require("express");
 const Project = require("../schemas/project");
-const Group = require("../schemas/group");
+const Todo = require("../schemas/todo");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { isAuthToken } = require("./auth");
 const router = express.Router();
@@ -42,5 +42,22 @@ router
       });
     }
   });
+
+router.get("/todos", isAuthToken, async (req, res) => {
+  try {
+    const { groupId } = req.query;
+    const projects = await Project.find({ groupId: groupId }).populate("todos");
+    return res.json({
+      code: 200,
+      payloads: projects,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      code: 500,
+      message: error._message,
+    });
+  }
+});
 
 module.exports = router;
