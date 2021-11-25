@@ -86,6 +86,10 @@ router.route("/").get(isAuthToken, (req, res) => {
 
         group.users.push({ _id: id });
         user.groups.push({ _id: group._id });
+        await Project.create({
+          groupId: group.id,
+          projectName: "Todo",
+        });
         group.save();
         user.save();
         await user.populate("groups", "groupName");
