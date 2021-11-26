@@ -8,9 +8,15 @@ const { isAuthToken } = require("./auth");
 const router = express.Router();
 
 router.get("/", isAuthToken, (req, res) => {
-  Todo.find()
-    .where("groupId")
-    .equals(ObjectId(req.query.groupId))
+  Todo.find({
+    groupId: ObjectId(req.query.groupId),
+    beginDate: {
+      $gte: req.query.beginDate,
+    },
+    endDate: {
+      $lte: req.query.endDate,
+    },
+  })
     .then((todos) => {
       res.json({
         code: 200,

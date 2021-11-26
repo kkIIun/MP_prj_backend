@@ -2,10 +2,10 @@ const { OAuth2Client } = require("google-auth-library");
 
 exports.isAuthToken = async (req, res, next) => {
   try {
-    const client = new OAuth2Client(process.env.CLIENT_ID);
-    await client.verifyIdToken({
-      idToken: req.get("Authorization"),
-    });
+    // const client = new OAuth2Client(process.env.CLIENT_ID);
+    // await client.verifyIdToken({
+    //   idToken: req.get("Authorization"),
+    // });
     next();
   } catch (error) {
     return res.status(500).json({
