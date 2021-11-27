@@ -29,7 +29,9 @@ router
   .get(isAuthToken, async (req, res) => {
     try {
       const { groupId } = req.query;
-      const projects = await Project.find({ groupId: ObjectId(groupId) });
+      const projects = await Project.find({
+        groupId: ObjectId(groupId),
+      }).select("_id projectName");
       return res.json({
         code: 200,
         payloads: projects,
