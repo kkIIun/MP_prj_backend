@@ -11,10 +11,10 @@ router.get("/", isAuthToken, (req, res) => {
   Todo.find({
     groupId: ObjectId(req.query.groupId),
     beginDate: {
-      $gte: req.query.beginDate,
+      $lte: req.query.endDate,
     },
     endDate: {
-      $lte: req.query.endDate,
+      $gte: req.query.beginDate,
     },
   })
     .then((todos) => {
