@@ -1,5 +1,6 @@
 const express = require("express");
 const Profile = require("../schemas/profile");
+const Project = require("../schemas/project");
 const Group = require("../schemas/group");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { isAuthToken } = require("./auth");
@@ -87,7 +88,7 @@ router.route("/").get(isAuthToken, (req, res) => {
         group.users.push({ _id: id });
         user.groups.push({ _id: group._id });
         await Project.create({
-          groupId: group.id,
+          groupId: group._id,
           projectName: "Todo",
         });
         group.save();
