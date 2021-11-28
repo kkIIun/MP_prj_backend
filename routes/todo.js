@@ -71,29 +71,16 @@ router.post("/", isAuthToken, async (req, res) => {
 
 router.put("/:id", isAuthToken, async (req, res) => {
   try {
-    const { deadline, title, assignedUser } = req.query;
+    // const { deadline, title } = req.query;
     var check;
     if (req.query.check == "true") check = true;
     if (req.query.check == "false") check = false;
 
-    const user = await Profile.find({
-      _id: assignedUser,
-    });
-    console.log(user);
-    if (assignedUser && !user[0]) {
-      return res.status(500).json({
-        code: 500,
-        message: "배정할 유저가 존재하지 않습니다.",
-      });
-    }
     await Todo.updateOne(
       {
         _id: ObjectId(req.params.id),
       },
       {
-        deadline: deadline,
-        title: title,
-        assignedUser: assignedUser,
         check: check,
       }
     );
