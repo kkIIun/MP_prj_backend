@@ -61,7 +61,7 @@ router.route("/").post(isAuthToken, async (req, res) => {
     var group = await Group.find({
       groupName: req.query.groupName,
     });
-    console.log(group, group.length);
+
     if (group.length)
       return res.json({
         code: 500,
@@ -180,24 +180,6 @@ router
         res.json({
           code: 200,
           message: "group 수정 성공",
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        return res.status(500).json({
-          code: 500,
-          message: error._message,
-        });
-      });
-  })
-  .delete((req, res) => {
-    Group.deleteOne({
-      _id: ObjectId(req.params.id),
-    })
-      .then(() => {
-        res.json({
-          code: 200,
-          message: "group 삭제 성공",
         });
       })
       .catch((error) => {

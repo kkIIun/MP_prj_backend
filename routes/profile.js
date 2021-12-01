@@ -122,7 +122,7 @@ router.route("/:id").put(isAuthToken, (req, res) => {
     .then(async (user) => {
       res.json({
         code: 200,
-        message: "유저 정보 수정 성공",
+        message: "유저 이미지 수정 성공",
       });
     })
     .catch((error) => {
